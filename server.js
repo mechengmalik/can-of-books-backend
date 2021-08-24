@@ -32,15 +32,27 @@ function bookCollection(){
         userEmail:'mecheng.malik93@gmail.com',
         bookName: 'home sweet home',
         description:"home sweet home home sweet home home sweet home home sweet home home sweet home "
+        
 
     })
-    book1.save();
-    book2.save();
-    book3.save();
 
-
-
+    const book4 = new bookModel({
+        userEmail:'trad.alhaiiari@gmail.com',
+        bookName: 'home sweet home',
+        description:"home sweet home home sweet home home sweet home home sweet home home sweet home "
+        
+        
+    })
+    // book1.save();
+    // book2.save();
+    // book3.save();
+    book4.save();
+    
+    
+    
 }
+// bookCollection();
+
 server.get('/',getHome)
 function getHome(req,res){
     res.send ('home')
@@ -51,16 +63,15 @@ server.get('/books', getBooksHandler);
 function getBooksHandler(req,res) {
     let userName = req.query.userEmail;
 
-    bookModel.find({userEmail:userName},function(error,ownerData){
+    bookModel.find({userEmail:userName},function(error,booksInfo){
         if (error){
             console.log('data not exist')
         }else {
-            res.send(ownerData)
+            res.send(booksInfo)
             
         }
     })
 }
-// bookCollection();
 
 server.listen(PORT, () => {
     console.log(`listening on PORT ${PORT}`)
