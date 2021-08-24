@@ -44,9 +44,11 @@ function bookCollection(){
         
         
     })
+   
     book1.save();
     book2.save();
     book3.save();
+
     book4.save();
     
     
@@ -68,12 +70,16 @@ function getBooksHandler(req,res) {
         if (error){
             console.log('data not exist')
         }else {
+
             console.log(booksInfo);
+
+
             res.send(booksInfo)
             
         }
     })
 }
+
 
 
 // addBookHandler ();
@@ -132,6 +138,7 @@ function deleteBookHandler (req,res){
     
 
 }
+
 
 
 
