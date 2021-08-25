@@ -59,6 +59,8 @@ function getHome(req,res){
     res.send ('home')
 }
 //http://localhost:3001/books?userEmail=mecheng.malik93@gmail.com
+
+
 server.get('/books', getBooksHandler);
 
 function getBooksHandler(req,res) {
@@ -68,7 +70,7 @@ function getBooksHandler(req,res) {
         if (error){
             console.log('data not exist')
         }else {
-            console.log(booksInfo);
+            // console.log('gggggggggg',booksInfo);
             res.send(booksInfo)
             
         }
@@ -78,51 +80,59 @@ function getBooksHandler(req,res) {
 
 // addBookHandler ();
 
-server.post('/addbooks', addBookHandler);
+server.post('/books', addBookHandler);
 
-async function addBookHandler (req,res){
-    // consol.log(req.body)
+ function addBookHandler (req,res){
+    console.log('yyyyyyyyyyyyyyy',req.body)
     let {userEmail , bookName , description } =req.body;
 
     
 
-    await bookModel.create({userEmail,bookName,description})
+    bookModel.create({userEmail:userEmail,bookName:bookName,description:description}).then(
+        
 
-    bookModel.find({userEmail}), function(error,booksInfo){
+    data=>{console.log('oooooooooooo',data)}
+   ).catch(error=>{console.log(error)
+
+   })
+
+   bookModel.find({userEmail:userEmail}, function(error,booksInfo){
         if(error){
             console.log('data not exist')
         }else{
+            // console.log('hallooooooooooooooooooooo')
             // console.log(booksInfo);
             res.send(booksInfo)
         }
-    }
+    })
 
 }
 
-// deleteBookHandler()
-server.delete('/deletebooks/:bookId', deleteBookHandler);
+
+server.delete('/books/:bookID', deleteBookHandler);
 
 function deleteBookHandler (req,res){
-    // consol.log(req.body)
+    console.log(req.params)
+
 
 
     let userName= req.query.userEmail;
 
-    let bookDataID = req.params.bookId
+    let bookDataID = req.params.bookID
 
+    console.log(';;;;;;;;;;;gggggg',userName , bookDataID)
     
-
      bookModel.remove({_id:bookDataID},(error,booksData)=>{
         if (error) {
-            consol.log('data can`t be deleted')
+            console.log('data can`t be deleted')
             
         }else{
-            consol.log(booksData)
+            console.log('fffffffffffff',booksData)
             bookModel.find({userEmail:userName}, function(err,booksInfo){
                 if(err){
                     console.log('data not exist')
                 }else{
-                    console.log(booksInfo);
+                    console.log('uuuuuuuuuu',booksInfo);
                     res.send(booksInfo)
                 }
             })
