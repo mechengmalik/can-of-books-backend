@@ -7,6 +7,7 @@ const PORT = process.env.PORT;
 const server = express();
 server.use(cors());
 const bookModel = require ('./Modules/book-model');
+server.use(express.json());
 
 
 
@@ -43,9 +44,11 @@ function bookCollection(){
         
         
     })
-    // book1.save();
-    // book2.save();
-    // book3.save();
+   
+    book1.save();
+    book2.save();
+    book3.save();
+
     book4.save();
     
     
@@ -67,11 +70,77 @@ function getBooksHandler(req,res) {
         if (error){
             console.log('data not exist')
         }else {
+
+            console.log(booksInfo);
+
+
             res.send(booksInfo)
             
         }
     })
 }
+
+
+
+// addBookHandler ();
+
+server.post('/addbooks', addBookHandler);
+
+async function addBookHandler (req,res){
+    // consol.log(req.body)
+    let {userEmail , bookName , description } =req.body;
+
+    
+
+    await bookModel.create({userEmail,bookName,description})
+
+    bookModel.find({userEmail}), function(error,booksInfo){
+        if(error){
+            console.log('data not exist')
+        }else{
+            // console.log(booksInfo);
+            res.send(booksInfo)
+        }
+    }
+
+}
+
+// deleteBookHandler()
+server.delete('/deletebooks/:bookId', deleteBookHandler);
+
+function deleteBookHandler (req,res){
+    // consol.log(req.body)
+
+
+    let userName= req.query.userEmail;
+
+    let bookDataID = req.params.bookId
+
+    
+
+     bookModel.remove({_id:bookDataID},(error,booksData)=>{
+        if (error) {
+            consol.log('data can`t be deleted')
+            
+        }else{
+            consol.log(booksData)
+            bookModel.find({userEmail:userName}, function(err,booksInfo){
+                if(err){
+                    console.log('data not exist')
+                }else{
+                    console.log(booksInfo);
+                    res.send(booksInfo)
+                }
+            })
+        }
+    })
+
+    
+
+}
+
+
+
 
 server.listen(PORT, () => {
     console.log(`listening on PORT ${PORT}`)
