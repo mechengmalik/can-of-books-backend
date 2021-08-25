@@ -32,7 +32,7 @@ function bookCollection(){
     const book3 = new bookModel({
         userEmail:'mecheng.malik93@gmail.com',
         bookName: 'home sweet home',
-        description:"home sweet home home sweet home home sweet home home sweet home home sweet home "
+        description:"home sweet home home sweet home home sweet home home "
         
 
     })
