@@ -153,6 +153,41 @@ function deleteBookHandler (req,res){
 
 }
 
+server.delete('/updatebook/:bookId', updateCatHandler);
+function updateCatHandler (req,res) {
+    let {userEmail,bookName,description} = req.body;
+    let bookID = req.params.bookID;
+    console.log(req.body)
+    kittenModel.findOne({_id:bookID},(error,bookData) =>{
+        console.log(bookData)
+    
+
+        bookData.userEmail = userEmail;
+        bookData.bookName= bookName;
+        bookData.description= description;
+
+        console.log('mmmmmmmmmmmmasa',bookData)
+        bookData.save()
+        .then(()=>{
+            bookModel.find({ ownerName }, function (err, bookInfo) {
+                if (err) {
+                    console.log('error in getting the data')
+                } else {
+                    // console.log(ownerData);
+                    res.send(bookInfo)
+                }
+            })
+        }).catch(error=>{
+            console.log('error in saving ')
+        })
+    })
+}
+
+
+
+
+
+
 
 
 
